@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Forsa.Models.FundingProgram>
+
+@{
+    var favoriteIds = ViewBag.FavoriteIds as List<int> ?? new List<int>();
+    int? userId = ViewBag.UserId as int?;
+}
+
+<h2>كل برامج التمويل</h2>
+
+<div class="row">
+    @foreach (var p in Model)
+    {
+        <div class="col-md-6 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5>@p.ProgramName</h5>
+                <p><strong>القطاع:</strong> @p.Sector</p>
+                <p><strong>الجهة المانحة:</strong> @p.DonorOrganization?.Name</p>
+                <p><strong>النطاق:</strong> @p.TargetRegion</p>
+                <p><strong>الفترة:</strong> @p.StartDate?.ToShortDateString() - @p.EndDate?.ToShortDateString()</p>
+
+                @if (userId != null)
+                {
+                    var isFav = favoriteIds.Contains(p.Id);
+                    <button class="btn btn-link favorite-btn" data-program-id="@p.Id">
+                        @(isFav ? "⭐" : "☆") مفضلة
+                    </button>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(".favorite-btn").click(function () {
+            const btn = $(this);
+            const id = btn.data("program-id");
+
+            $.post("/FundingPrograms/ToggleFavorite", { programId: id }, function (res) {
+                if (res.success) {
+                    const star = btn.text().includes("⭐") ? "☆" : "⭐";
+                    btn.html(`${star} مفضلة`);
+                }
+            });
+        });
+    </script>
+}

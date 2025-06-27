@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Forsa.Models.Notification>
+
+<h2>الإشعارات</h2>
+
+@if (!Model.Any())
+{
+    <p>لا يوجد إشعارات حالياً.</p>
+}
+else
+{
+    <ul>
+        @foreach (var note in Model)
+        {
+            <li>
+                <span>@note.Message</span>
+                <small class="text-muted">@note.CreatedAt?.ToString("yyyy-MM-dd HH:mm")</small>
+            </li>
+        }
+    </ul>
+
+}

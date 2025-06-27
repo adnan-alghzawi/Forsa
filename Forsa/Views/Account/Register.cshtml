@@ -1,0 +1,17 @@
+﻿@model Forsa.Models.User
+
+<h2>Register</h2>
+
+<form asp-action="Register" method="post">
+    <label>Full Name:</label>
+    <input asp-for="FullName" required /><br />
+    <label>Email:</label>
+    <input asp-for="Email" type="email" required /><br />
+    <label>Password:</label>
+    <input asp-for="PasswordHash" type="password" required /><br />
+    <label>Phone:</label>
+    <input asp-for="Phone" /><br />
+    <label>Country:</label>
+    <input asp-for="Country" /><br />
+    <button type="submit">Register</button>
+</form>

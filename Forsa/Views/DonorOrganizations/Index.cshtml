@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Forsa.Models.DonorOrganization>
+
+<h2>الجهات المانحة</h2>
+
+@foreach (var donor in Model)
+{
+    <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
+        <h3>@donor.Name</h3>
+        <p>@donor.Country</p>
+        <a asp-action="Details" asp-route-id="@donor.Id">عرض التفاصيل</a>
+    </div>
+}

@@ -1,0 +1,42 @@
+﻿@model Forsa.Models.DonorOrganization
+
+<h2>@Model.Name</h2>
+<p><strong>الدولة:</strong> @Model.Country</p>
+<p><strong>الموقع:</strong> <a href="@Model.WebsiteLink" target="_blank">@Model.WebsiteLink</a></p>
+<p><strong>ملاحظات:</strong> @Model.Notes</p>
+
+<h3 class="mt-4">برامج التمويل التابعة:</h3>
+
+@if (Model.FundingPrograms.Any())
+{
+    <div class="row">
+        @foreach (var program in Model.FundingPrograms)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card p-3 shadow-sm">
+                    <h5 class="card-title">@program.ProgramName</h5>
+                    <p><strong>القطاع:</strong> @program.Sector</p>
+                    @* <p><strong>النطاق:</strong> @program.Scope</p> *@
+                    <p><strong>النطاق:</strong> @program.TargetRegion</p>
+
+                    <p><strong>الفترة:</strong> @program.EndDate?.ToString("dd/MM/yyyy") - @program.StartDate?.ToString("dd/MM/yyyy")</p>
+                    <p><strong>نوع التمويل:</strong> @program.FundingType</p>
+
+                    @* <p><strong>مفضلة:</strong> ⭐ <span class="text-muted">(هنا نضيف لاحقًا الزر الحقيقي)</span></p> *@
+                    <form asp-controller="Favorites" asp-action="ToggleFavorite" method="post" style="display:inline;">
+                        <input type="hidden" name="programId" value="@program.Id" />
+                        <button type="submit" class="btn btn-link p-0 text-decoration-none">
+                            <span class="text-warning">⭐</span> مفضلة
+                        </button>
+                    </form>
+
+
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>لا توجد برامج حالياً.</p>
+}

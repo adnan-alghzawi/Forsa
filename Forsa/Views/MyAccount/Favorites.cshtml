@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Forsa.Models.FundingProgram>
+
+<h2>البرامج المفضلة</h2>
+
+@if (!Model.Any())
+{
+    <p>لا يوجد برامج في المفضلة.</p>
+}
+else
+{
+    <ul>
+        @foreach (var program in Model)
+        {
+            <li>
+                <strong>@program.ProgramName</strong> - @program.Sector
+            </li>
+        }
+    </ul>
+}

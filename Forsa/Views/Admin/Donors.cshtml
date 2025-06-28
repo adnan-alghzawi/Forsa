@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Forsa.Models.DonorOrganization>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>🛠 لوحة تحكم الأدمن - الجهات المانحة</h2>
+
+<a asp-action="CreateDonor" class="btn btn-primary mb-3">➕ إضافة جهة جديدة</a>
+
+<div class="mb-3">
+    <a asp-action="Donors" asp-route-status="all" class="btn btn-outline-secondary @(ViewBag.CurrentFilter == "all" ? "active" : "")">الكل</a>
+    <a asp-action="Donors" asp-route-status="active" class="btn btn-outline-success @(ViewBag.CurrentFilter == "active" ? "active" : "")">النشطة</a>
+    <a asp-action="Donors" asp-route-status="deleted" class="btn btn-outline-danger @(ViewBag.CurrentFilter == "deleted" ? "active" : "")">المحذوفة</a>
+</div>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>الاسم</th>
+            <th>الدولة</th>
+            <th>عدد البرامج</th>
+            <th>خيارات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donor in Model)
+        {
+            <tr class="@(donor.IsDeleted ? "table-secondary" : "")">
+                <td>@donor.Name</td>
+                <td>@donor.Country</td>
+                <td>@donor.FundingPrograms.Count()</td>
+                <td>
+                    <a asp-controller="DonorOrganizations" asp-action="Details" asp-route-id="@donor.Id" class="btn btn-sm btn-info">عرض</a>
+
+                    <form asp-action="ToggleDonorDelete" method="post" asp-route-id="@donor.Id" style="display:inline;">
+                        <button type="submit" class="btn btn-sm @(donor.IsDeleted ? "btn-success" : "btn-danger")">
+                            @(donor.IsDeleted ? "استرجاع" : "حذف")
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

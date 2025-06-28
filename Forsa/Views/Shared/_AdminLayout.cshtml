@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>لوحة التحكم - Forsa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f9f9f9;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            top: 0;
+            background-color: #343a40;
+            padding-top: 60px;
+        }
+
+            .sidebar a {
+                color: white;
+                padding: 15px;
+                display: block;
+                text-decoration: none;
+            }
+
+                .sidebar a:hover {
+                    background-color: #495057;
+                }
+
+        .main-content {
+            margin-right: 250px;
+            padding: 20px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            right: 250px;
+            left: 0;
+            height: 60px;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a asp-controller="Admin" asp-action="Donors">الجهات المانحة</a>
+        <a asp-controller="Admin" asp-action="Programs">برامج التمويل</a>
+        <a asp-controller="Admin" asp-action="Users">المستخدمون</a>
+        <a asp-controller="Account" asp-action="Logout">تسجيل الخروج</a>
+    </div>
+
+    <header>
+        <h5>لوحة التحكم - مرحباً @Context.Session.GetString("UserName")</h5>
+    </header>
+
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

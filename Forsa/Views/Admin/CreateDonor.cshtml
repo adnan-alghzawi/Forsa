@@ -1,0 +1,36 @@
+﻿@model Forsa.Models.DonorOrganization
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>➕ إضافة جهة مانحة جديدة</h2>
+
+<form asp-action="CreateDonor" method="post">
+    <div class="mb-2">
+        <label>الاسم:</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+    <div class="mb-2">
+        <label>الدولة:</label>
+        <input asp-for="Country" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>الوكالة المنفذة:</label>
+        <input asp-for="ImplementingAgency" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>الشريك المحلي:</label>
+        <input asp-for="LocalPartner" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>رابط الموقع:</label>
+        <input asp-for="WebsiteLink" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>ملاحظات:</label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">حفظ</button>
+    <a asp-action="Donors" class="btn btn-secondary">رجوع</a>
+</form>

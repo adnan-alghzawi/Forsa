@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Forsa.Models.FundingProgram>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>📋 إدارة برامج التمويل</h2>
+
+<a asp-action="AddProgram" class="btn btn-success mb-3">➕ برنامج جديد</a>
+
+<div class="mb-3">
+    <a asp-action="Programs" asp-route-status="all" class="btn btn-outline-secondary @(ViewBag.CurrentFilter == "all" ? "active" : "")">الكل</a>
+    <a asp-action="Programs" asp-route-status="active" class="btn btn-outline-success @(ViewBag.CurrentFilter == "active" ? "active" : "")">النشطة</a>
+    <a asp-action="Programs" asp-route-status="deleted" class="btn btn-outline-danger @(ViewBag.CurrentFilter == "deleted" ? "active" : "")">المحذوفة</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>الاسم</th>
+            <th>الجهة</th>
+            <th>القطاع</th>
+            <th>الفترة</th>
+            <th>الحالة</th>
+            <th>خيارات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr class="@(p.IsDeleted ? "table-secondary" : "")">
+                <td>@p.ProgramName</td>
+                <td>@p.DonorOrganization?.Name</td>
+                <td>@p.Sector</td>
+                <td>@p.StartDate?.ToShortDateString() - @p.EndDate?.ToShortDateString()</td>
+                <td>@(p.IsDeleted ? "🗑️ محذوف" : "نشط")</td>
+                <td>
+                    <a asp-action="EditProgram" asp-route-id="@p.Id" class="btn btn-sm btn-warning">تعديل</a>
+
+                    <form asp-action="ToggleProgramDelete" method="post" asp-route-id="@p.Id" style="display:inline;">
+                        <button type="submit" class="btn btn-sm @(p.IsDeleted ? "btn-success" : "btn-danger")">
+                            @(p.IsDeleted ? "استرجاع" : "حذف")
+                        </button>
+                    </form>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

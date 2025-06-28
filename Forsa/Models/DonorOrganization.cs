@@ -19,5 +19,7 @@ public partial class DonorOrganization
 
     public string? WebsiteLink { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public virtual ICollection<FundingProgram> FundingPrograms { get; set; } = new List<FundingProgram>();
 }

@@ -28,6 +28,7 @@ public class FundingProgramsController : Controller
 
         var programs = _context.FundingPrograms
             .Include(p => p.DonorOrganization)
+            .Where(p => !p.IsDeleted) // ✅ إخفاء البرامج المحذوفة
             .ToList();
 
         var favoriteIds = _context.Favorites
@@ -40,7 +41,6 @@ public class FundingProgramsController : Controller
 
         return View(programs);
     }
-
 
     // AJAX: Toggle Favorite
     [HttpPost]

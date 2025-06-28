@@ -31,6 +31,8 @@ public partial class FundingProgram
 
     public string? Notes { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public virtual DonorOrganization DonorOrganization { get; set; } = null!;
 
     public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();

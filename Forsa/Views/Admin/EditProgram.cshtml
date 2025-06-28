@@ -1,0 +1,56 @@
+﻿@model Forsa.Models.FundingProgram
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var isEdit = Context.Request.Path.Value.Contains("Edit");
+}
+
+<h2>@(isEdit ? "✏️ تعديل برنامج" : "➕ إضافة برنامج")</h2>
+
+<form method="post">
+    <div class="mb-2">
+        <label>اسم البرنامج:</label>
+        <input asp-for="ProgramName" class="form-control" required />
+    </div>
+    <div class="mb-2">
+        <label>الجهة المانحة:</label>
+        <select asp-for="DonorOrganizationId" class="form-control" asp-items="@(new SelectList(ViewBag.Donors, "Id", "Name"))">
+            <option disabled selected>اختر جهة</option>
+        </select>
+    </div>
+    <div class="mb-2">
+        <label>القطاع:</label>
+        <input asp-for="Sector" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>المنطقة المستهدفة:</label>
+        <input asp-for="TargetRegion" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>الفترة:</label>
+        <input asp-for="StartDate" type="date" class="form-control" /> إلى
+        <input asp-for="EndDate" type="date" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>التمويل الأدنى:</label>
+        <input asp-for="MinAmount" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>التمويل الأعلى:</label>
+        <input asp-for="MaxAmount" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>نوع التمويل:</label>
+        <input asp-for="FundingType" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>رابط التقديم:</label>
+        <input asp-for="ApplicationLink" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label>ملاحظات:</label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">حفظ</button>
+    <a asp-action="Programs" class="btn btn-secondary">رجوع</a>
+</form>

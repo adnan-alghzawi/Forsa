@@ -46,8 +46,40 @@ public class AccountController : Controller
 
     // POST: /Account/Login
     [HttpPost]
+    //public IActionResult Login(string email, string password)
+    //{
+    //    var hashedPassword = HashPassword(password);
+    //    var user = _context.Users.FirstOrDefault(u => u.Email == email && u.PasswordHash == hashedPassword);
+
+    //    if (user == null)
+    //    {
+    //        ViewBag.Error = "Invalid email or password";
+    //        return View();
+    //    }
+
+    //    HttpContext.Session.SetInt32("UserId", user.Id);
+    //    HttpContext.Session.SetString("UserName", user.FullName);
+    //    HttpContext.Session.SetString("UserRole", user.Role);
+
+    //    if (TempData["ReturnUrl"] != null)
+    //        return Redirect(TempData["ReturnUrl"].ToString());
+
+    //    return RedirectToAction("Index", "Home");
+    //}
+    [HttpPost]
     public IActionResult Login(string email, string password)
     {
+        // تحقق من حالة خاصة لحساب الأدمن السريع
+        if (email == "admin@gmail.com" && password == "admin@gmail.com")
+        {
+            HttpContext.Session.SetInt32("UserId", 0); // ID وهمي
+            HttpContext.Session.SetString("UserName", "Admin");
+            HttpContext.Session.SetString("UserRole", "Admin");
+
+            return RedirectToAction("Donors", "Admin");
+        }
+
+        // تسجيل دخول عادي من قاعدة البيانات
         var hashedPassword = HashPassword(password);
         var user = _context.Users.FirstOrDefault(u => u.Email == email && u.PasswordHash == hashedPassword);
 
@@ -66,6 +98,7 @@ public class AccountController : Controller
 
         return RedirectToAction("Index", "Home");
     }
+
 
 
     // Logout

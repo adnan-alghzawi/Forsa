@@ -1,7 +1,26 @@
 ﻿@model Forsa.Models.User
 
-<h2>مرحبا، @Model.FullName</h2>
+<h2>مرحبًا، @Model.FullName</h2>
+
 <ul>
+    <li><strong>البريد الإلكتروني:</strong> @Model.Email</li>
+    <li><strong>الدولة:</strong> @Model.Country</li>
+
+    @if (Model.SubscriptionEndDate != null)
+    {
+        <li><strong>الخطة الحالية:</strong> @Model.SubscriptionPlan?.Name</li>
+        <li><strong>تاريخ انتهاء الاشتراك:</strong> @Model.SubscriptionEndDate?.ToString("yyyy-MM-dd")</li>
+
+        @if (Model.SubscriptionEndDate < DateTime.Now)
+        {
+            <li style="color: red;"><strong>⚠️ انتهى اشتراكك، يرجى التجديد</strong></li>
+        }
+    }
+    else
+    {
+        <li><strong>⚠️ لا تملك اشتراكًا مفعلًا</strong></li>
+    }
+
     <li><a asp-action="Favorites">📌 البرامج المفضلة</a></li>
     <li><a asp-action="Notifications">🔔 الإشعارات</a></li>
 </ul>

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Forsa.Models.SubscriptionPlan>
+
+<h2>خطط الاشتراك</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>الخطة</th>
+            <th>المدة</th>
+            <th>السعر</th>
+            <th>الوصف</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var plan in Model)
+        {
+            <tr>
+                <td>@plan.Name</td>
+                <td>@plan.DurationInDays يوم</td>
+                <td>@plan.Price $</td>
+                <td>@plan.Description</td>
+                <td>
+                    <form asp-action="Subscribe" asp-route-id="@plan.Id" method="post">
+                        <button type="submit" class="btn btn-primary">اشترك</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

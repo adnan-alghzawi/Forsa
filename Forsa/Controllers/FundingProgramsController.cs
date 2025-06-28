@@ -14,26 +14,33 @@ public class FundingProgramsController : Controller
     // GET: /FundingPrograms
     public IActionResult Index()
     {
+        int? userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null)
+            return RedirectToAction("Login", "Account");
+
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+        if (user == null || user.SubscriptionEndDate == null || user.SubscriptionEndDate < DateTime.Now)
+        {
+            TempData["Error"] = "انتهت صلاحية اشتراكك. يرجى الاشتراك من جديد.";
+            return RedirectToAction("Index", "Subscription");
+        }
+
         var programs = _context.FundingPrograms
             .Include(p => p.DonorOrganization)
             .ToList();
 
-        int? userId = HttpContext.Session.GetInt32("UserId");
-        List<int> favoriteIds = new();
-
-        if (userId != null)
-        {
-            favoriteIds = _context.Favorites
-                .Where(f => f.UserId == userId)
-                .Select(f => f.FundingProgramId)
-                .ToList();
-        }
+        var favoriteIds = _context.Favorites
+            .Where(f => f.UserId == userId)
+            .Select(f => f.FundingProgramId)
+            .ToList();
 
         ViewBag.FavoriteIds = favoriteIds;
         ViewBag.UserId = userId;
 
         return View(programs);
     }
+
 
     // AJAX: Toggle Favorite
     [HttpPost]
